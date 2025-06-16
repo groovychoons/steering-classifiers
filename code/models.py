@@ -37,7 +37,7 @@ class TransformerClassifier(nn.Module):
         return probs
     
 
-class CustomSteeringDataset(Dataset):
+class CustomCAADataset(Dataset):
     def __init__(self, activation_score, labels, text):
         self.activation_score = activation_score
         self.labels = labels
@@ -106,8 +106,8 @@ def construct_dataset(df, padded_activation_scores, test_size=0.3, random_state=
         padded_activation_scores, df.text.to_list(), one_hot_labels, test_size=test_size, random_state=random_state)
     
     # construct datasets with steering vector features
-    train_dataset = CustomSteeringDataset(X_train, y_train, text_train)
-    test_dataset = CustomSteeringDataset(X_test, y_test, text_test)
+    train_dataset = CustomCAADataset(X_train, y_train, text_train)
+    test_dataset = CustomCAADataset(X_test, y_test, text_test)
 
     return train_dataset, test_dataset
 
