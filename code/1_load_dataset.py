@@ -4,8 +4,11 @@ import pandas as pd
 df = pd.read_parquet("hf://datasets/ucberkeley-dlab/measuring-hate-speech/measuring-hate-speech.parquet")
 df = df[['text', 'hate_speech_score', 'comment_id', 'annotator_id']]
 
+# Remove duplicate comments based on 'comment_id'
+df = df.drop_duplicates(subset=['text'])
+
 # Create a new column 'label' based on the hate speech score
-df['label'] = df['hate_speech_score'].apply(lambda x: 1 if x > 1 else (0 if x < -2 else None))
+df['label'] = df['hate_speech_score'].apply(lambda x: 1 if x > 1 else (0 if x < -3 else None))
 
 # Remove rows without a label
 df = df.dropna(subset=['label'])
